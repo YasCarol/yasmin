@@ -1,24 +1,26 @@
-<?php
-use PHPMailer\PHPMailer\PHPMailer;
 
+<?php
+
+use PHPMailer\PHPMailer\PHPMailer;
 require 'vendor/autoload.php';
+
 $mail = new PHPMailer;
 $mail->isSMTP();
 $mail->SMTPDebug = 2;
-$mail->Host = 'smtp.hostinger.com';
+$mail->Host = 'smtp.gmail.com';
 $mail->Port = 587;
 $mail->SMTPAuth = true;
-$mail->Username = 'test@hostinger-tutorials.com';
-$mail->Password = 'SUA SENHA AQUI';
-$mail->setFrom('test@hostinger-tutorials.com', 'Your Name');
-$mail->addReplyTo('test@hostinger-tutorials.com', 'Your Name');
-$mail->addAddress('exemplo@email.com', 'Receiver Name');
-$mail->Subject = 'Testing PHPMailer';
-$mail->msgHTML(file_get_contents('message.html'), _DIR_);
-$mail->Body = 'This is a plain text message body';
-//$mail->addAttachment('test.txt');
+$mail->Username = 'carolineyasmin815@gmail.com';
+$mail->Password = 'yasmin123456';
+$mail->setFrom('yasmin@azapfy.com', 'yas');
+//$mail->addReplyTo('kleberroro23@gmail.com', 'kleber');
+$mail->addAddress('Kleberroro23@gmail.com', 'Elmo');
+$mail->Subject = 'Bom diaa Elmixxx';
+//$mail->msgHTML(file_get_contents('message.html'), _DIR_);
+$mail->Body = " Ontem eu dormi em.. mas hoje foiii";
+$mail->addAttachment('../pdf/exercicios.pdf');
 if (!$mail->send()) {
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
+    echo 'Sucesso' . $mail->ErrorInfo;
 } else {
-    echo 'The email message was sent.';
+    echo 'Falha';
 }
