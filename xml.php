@@ -117,8 +117,166 @@ class NFeService { //tem que criar a classe
 
     $stdAut = $nfe-> tagautXML($stdAut);
 
-    /**AUTORIZACAO **/
+    /**PRODUTO **/
+    $stdProd = new stdClass();
+    $stdProd->item = 1;
+    $stdProd->cProd = '713838';
+    $stdProd->cEAN = '7891000284933';
+    $stdProd->cBarra = '';
+    $stdProd->xProd = '';
+    $stdProd->NCM = '19011010';
+    $stdProd->cBenef = '';
+    $stdProd->EXTIPI = '';
+    $stdProd->CFOP = '5405';
+    $stdProd->uCom = 'CX';
+    $stdProd->qCom = '1.0000';
+    $stdProd->vUnCom = '15.2000';
+    $stdProd->vProd = '15.20';
+    $stdProd->cEANTrib = '7891000284933';
+    $stdProd->cBarraTrib = '';
+    $stdProd->uTrib = 'CX';
+    $stdProd->qTrib = '1.0000';
+    $stdProd->vUnTrib = '15.2000';
+    $stdProd->vFrete = '0.89';
+    $stdProd->vSeg = '';
+    $stdProd->vDesc = '';
+    $stdProd->vOutro = '';
+    $stdProd->indTot = '1';
+    $stdProd->xPed = '200821131146';
+    $stdProd->nItemPed = '';
+    $stdProd->nFCI = '';
+    
+   $stdProd = $nfe->tagprod($stdProd);    
+   
+   /**IMPOSTO **/
+   $stdImposto = new stdClass();
+   $stdImposto->item = 1; 
+   $stdImposto->vTotTrib = 1000.00;
+   
+   $stdImposto = $nfe->tagimposto($stdImposto);
 
+   /**ICMS **/
+   $stdIcms = new stdClass();
+   $stdIcms->item = 1; 
+   $stdIcms->orig = '0';
+   $stdIcms->CST = '60';
+   $stdIcms->vBCSTRet = '0.00';
+   $stdIcms->pST = '0.00';
+   $stdIcms->vICMSSTRet = '0.00';
+   $stdIcms->vICMSSubstituto = '0.00';
+   
+   $stdIcms = $nfe->tagICMS($stdIcms);
+  
+    /**PIS **/
+    $stdPis = new stdClass();
+    $stdPis->item = 1; 
+    $stdPis->CST = '04';
+    $stdPis->vBC = null;
+    $stdPis->pPIS = null;
+    $stdPis->vPIS = null;
+    $stdPis->qBCProd = null;
+    $stdPis->vAliqProd = null;
+    
+    $stdPis = $nfe->tagPIS($stdPis);
+    
+    /**CONFINS **/
+    $stdConfins = new stdClass();
+    $stdConfins->item = 1; //item da NFe
+    $stdConfins->CST = '04';
+    $stdConfins->vBC = null;
+    $stdConfins->pCOFINS = null;
+    $stdConfins->vCOFINS = null;
+    $stdConfins->qBCProd = null;
+    $stdConfins->vAliqProd = null;
+    
+    $stdConfins = $nfe->tagCOFINS($stdConfins);
+ 
+    /**TOTAL **/
+    $stdTotal = new stdClass();
+    $stdTotal->vBC = 0.00;
+    $stdTotal->vICMS = 0.00;
+    $stdTotal->vICMSDeson = 0.00;
+    $stdTotal->vFCP = 0.00; 
+    $stdTotal->vBCST = 0.00;
+    $stdTotal->vST = 0.00;
+    $stdTotal->vFCPST = 0.00; 
+    $stdTotal->vFCPSTRet = 0.00;
+    $stdTotal->vProd = 15.20;
+    $stdTotal->vFrete = 0.00;
+    $stdTotal->vSeg = 0.00;
+    $stdTotal->vDesc = 0.89;
+    $stdTotal->vII = 0.00;
+    $stdTotal->vIPI = 0.00;
+    $stdTotal->vIPIDevol = 0.00;
+    $stdTotal->vPIS = 0.00;
+    $stdTotal->vCOFINS = 0.00;
+    $stdTotal->vOutro = 0.00;
+    $stdTotal->vNF =14.31;
+    $stdTotal->vTotTrib = 0.00;
+    
+    $Total = $nfe->tagICMSTot($stdTotal);
+
+    /**TRANSP **/
+    $stdTransp = new stdClass();
+    $stdTransp->modFrete = 0;
+    
+    $transp = $nfe->tagtransp($stdTransp);
+
+    /**TRANSPORTADORA **/
+    $stdTransportadora = new stdClass();
+    $stdTransportadora->xNome = 'TRANSPAPER TRANSPORTES LTDAo';
+    $stdTransportadora->IE = '2779782910092';
+    $stdTransportadora->xEnder = 'R AFONSO PENA3696';
+    $stdTransportadora->xMun = 'GOVERNADOR VALADARES';
+    $stdTransportadora->UF = 'MG';
+    $stdTransportadora->CNPJ = '01248648000144';
+    
+    $transportadora = $nfe->tagtransporta($stdTransportadora);
+
+    /**PAGAMENTO   **/
+    $stdPag = new stdClass();
+    $stdPag->vTroco = 0.00; 
+       
+    $Pag = $nfe->tagpag($stdPag);
+    
+    /**DETALHE PAG **/
+    $stdDetpag = new stdClass();
+    $stdDetpag->tPag = '15';
+    $stdDetpag->vPag = 14.31;
+    //$stdDetpag->CNPJ = '12345678901234';
+    //$stdDetpag->tBand = '01';
+    //$stdDetpag->cAut = '3333333';
+    //$stdDetpag->tpIntegra = 1; //incluso na NT 2015/002
+   // $stdDetpag->indPag = '0'; //0= Pagamento à Vista 1= Pagamento à Prazo
+    
+    $DetalhePag = $nfe->tagdetPag($stdDetpag);
+
+    /**INFORMACOES ADICIONAIS **/
+    $stdInfAdic = new stdClass();
+    $stdInfAdic->infAdFisco = 'informacoes para o fisco';
+    $stdInfAdic->infCpl = 'L09109 Rota: 458/372 Set: 00563 NF: 0000089459 Aut.Func.:1.03.129-5 -Aut.Esp.Func.:1.20.475-5 Lic.Sanit: 2018038601 PRACA DE PAGAMENTO: SAO PAULO-SP ICMS ST DEC. 45688/11 ST CFME DEC 44823/08 E 44147/05 PAFS NO 9365 27/04/2012-380971841 A 381251840 Lic.Sanit.Cliente:0012/2021 N.Pedido Cliente: 200821131146 / Picklist: 0249965-06 / Oferta: 81XXX N.Pedido Cliente: 200821131146 / Picklist: 0249965-06 / Oferta: 81XXX;</';
+    
+    $stdInfAdic = $nfe->taginfAdic($stdInfAdic);
+
+    /**OBS CONTRIBUENTE **/
+    $stdObsCont = new stdClass();
+    $stdObsCont->xCampo = 'Cod.Cliente:L09109';
+    $stdObsCont->xTexto = 'Pedido:200821131146';
+    
+    $stdObsCont = $nfe->tagobsCont($stdObsCont);
+
+    /**COMPRA **/
+    $stdCompra = new stdClass();
+    $stdCompra->xPed = '200821131146';
+    
+    $stdCompra = $nfe->tagcompra($stdCompra);
+
+    //Monta a nota
+    if ($nfe->montaNFe()) {
+        return $nfe->getXML();
+    }else {
+        throw new Exception("Erro ao gerar NFe");
+    }
 
  }
 } 
