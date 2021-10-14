@@ -1,29 +1,33 @@
 <?php
 use NFePHP\NFe\Make;
 
-class NFeService { //tem que criar a classe
+
+class NFeService {
+
     
     private $config;
 
     public function __construct($config){ 
         $config = [
-            "atualizacao" => "2015-10-02 06:01:21",
-            "tpAmb" => 2,
-            "razaosocial" => "Fake Materiais de construção Ltda",
-            "siglaUF" => "SP",
-            "cnpj" => "00716345000119",
-            "schemes" => "PL_008i2",
-            "versao" => "3.10",
-            "tokenIBPT" => "AAAAAAA",
-            "CSC" => "GPB0JBWLUR6HWFTVEAS6RJ69GPCROFPBBB8G",
-            "CSCid" => "000002"
+            //"atualizacao" => "2015-10-02 06:01:21",
+            "tpAmb" => 1,
+            "razaosocial" => "JR TRANSPORTES",
+            "siglaUF" => "PB",
+            "cnpj" => "11507592000159",
+            "schemes" => "PL_009_V4",
+            "versao" => "4.00",
+            //"tokenIBPT" => "anIyMDIx",
+            //"CSC" => "GPB0JBWLUR6HWFTVEAS6RJ69GPCROFPBBB8G",
+            //"CSCid" => "000002"
         ];
         $json = json_encode($config);
         $this->config = $config; //
+        echo "ok";
     }
-    public function gerarNFe(){ //essa funcao vai ser chamada onde?
+    public function gerarNFe($InNfe, $Ide, $Emit, $EnderEmit, $Dest, $EnderDest, $Aut,  $Prod,  $Imposto, $Icms, $Pis, $Confins, $Total, $transp, $transportadora, $Pag, $DetalhePag, $InfAdic, $ObsCont, $Compra  ){ //essa funcao vai ser chamada onde?
     
     $nfe = new Make();// falta instanciar essa classe
+
 
     /** INF Nfe **/ 
     $stdInNfe = new stdClass();
@@ -31,7 +35,7 @@ class NFeService { //tem que criar a classe
     $stdInNfe->Id = 'NFe35150271780456000160550010000000021800700082'; //se o Id de 44 digitos não for passado será gerado automaticamente
     $stdInNfe->pk_nItem = null; //deixe essa variavel sempre como NULL
     
-    $stdInNfe = $nfe-> taginfNFe($stdInNfe);
+    $InNfe = $nfe-> taginfNFe($stdInNfe);
 
     /** IDE **/
     $stdIde = new stdClass();//AQUI
@@ -59,7 +63,7 @@ class NFeService { //tem que criar a classe
     $stdIde->dhCont = null;
     $stdIde->xJust = null;
 
-    $stdIde= $nfe-> tagide($stdIde);// AQUI
+    $Ide= $nfe-> tagide($stdIde);// AQUI
 
     /** EMITENTE **/
     $stdEmit = new stdClass();
@@ -67,9 +71,9 @@ class NFeService { //tem que criar a classe
     $stdEmit->xFant = 'CRUZ' ;
     $stdEmit->IE = '0627655890101';
     $stdEmit->CRT = 3 ;
-    $stdEmit->CNPJ = 61940292001290; //indicar apenas um CNPJ ou CPF
+    $stdEmit->CNPJ = 61940292001290; 
 
-    $stdEmit= $nfe->tagemit($stdEmit);   
+    $Emit= $nfe->tagemit($stdEmit);   
 
     /** ENDEREÇO EMITENTE **/
     $stdEnderEmit = new stdClass();
@@ -85,7 +89,7 @@ class NFeService { //tem que criar a classe
     $stdEnderEmit->xPais = 'BRASIL';
     $stdEnderEmit->fone = '3134592800';
 
-    $stdEnderEmit= $nfe->tagenderEmit($stdEnderEmit);
+    $EnderEmit= $nfe->tagenderEmit($stdEnderEmit);
 
     /** DESTINATARIO **/
     $stdDest = new stdClass();
@@ -94,7 +98,7 @@ class NFeService { //tem que criar a classe
     $stdDest->indIEDest = 1;
     $stdDest->IE = '0039861110003';
     
-    $stdDest = $nfe->tagdest($stdDest);
+    $Dest = $nfe->tagdest($stdDest);
 
     /**ENDEREÇO DESTINATARIO **/
     $stdEnderDest = new stdClass();
@@ -108,14 +112,14 @@ class NFeService { //tem que criar a classe
     $stdEnderDest->cPais = '1058';
     $stdEnderDest->xPais = 'BRASIL';
     
-    $stdEnderDest = $nfe->tagenderDest($stdEnderDest);
+    $EnderDest = $nfe->tagenderDest($stdEnderDest);
 
     /**AUTORIZACAO **/
     $stdAut= new stdClass();
     $stdAut->CNPJ = '16907746000113';
     $stdAut->CPF = null;
 
-    $stdAut = $nfe-> tagautXML($stdAut);
+    $Aut = $nfe-> tagautXML($stdAut);
 
     /**PRODUTO **/
     $stdProd = new stdClass();
@@ -146,14 +150,14 @@ class NFeService { //tem que criar a classe
     $stdProd->nItemPed = '';
     $stdProd->nFCI = '';
     
-   $stdProd = $nfe->tagprod($stdProd);    
+   $Prod = $nfe->tagprod($stdProd);    
    
    /**IMPOSTO **/
    $stdImposto = new stdClass();
    $stdImposto->item = 1; 
    $stdImposto->vTotTrib = 1000.00;
    
-   $stdImposto = $nfe->tagimposto($stdImposto);
+   $Imposto = $nfe->tagimposto($stdImposto);
 
    /**ICMS **/
    $stdIcms = new stdClass();
@@ -165,7 +169,7 @@ class NFeService { //tem que criar a classe
    $stdIcms->vICMSSTRet = '0.00';
    $stdIcms->vICMSSubstituto = '0.00';
    
-   $stdIcms = $nfe->tagICMS($stdIcms);
+   $Icms = $nfe->tagICMS($stdIcms);
   
     /**PIS **/
     $stdPis = new stdClass();
@@ -177,7 +181,7 @@ class NFeService { //tem que criar a classe
     $stdPis->qBCProd = null;
     $stdPis->vAliqProd = null;
     
-    $stdPis = $nfe->tagPIS($stdPis);
+    $Pis = $nfe->tagPIS($stdPis);
     
     /**CONFINS **/
     $stdConfins = new stdClass();
@@ -189,7 +193,7 @@ class NFeService { //tem que criar a classe
     $stdConfins->qBCProd = null;
     $stdConfins->vAliqProd = null;
     
-    $stdConfins = $nfe->tagCOFINS($stdConfins);
+    $Confins = $nfe->tagCOFINS($stdConfins);
  
     /**TOTAL **/
     $stdTotal = new stdClass();
@@ -256,27 +260,26 @@ class NFeService { //tem que criar a classe
     $stdInfAdic->infAdFisco = 'informacoes para o fisco';
     $stdInfAdic->infCpl = 'L09109 Rota: 458/372 Set: 00563 NF: 0000089459 Aut.Func.:1.03.129-5 -Aut.Esp.Func.:1.20.475-5 Lic.Sanit: 2018038601 PRACA DE PAGAMENTO: SAO PAULO-SP ICMS ST DEC. 45688/11 ST CFME DEC 44823/08 E 44147/05 PAFS NO 9365 27/04/2012-380971841 A 381251840 Lic.Sanit.Cliente:0012/2021 N.Pedido Cliente: 200821131146 / Picklist: 0249965-06 / Oferta: 81XXX N.Pedido Cliente: 200821131146 / Picklist: 0249965-06 / Oferta: 81XXX;</';
     
-    $stdInfAdic = $nfe->taginfAdic($stdInfAdic);
+    $InfAdic = $nfe->taginfAdic($stdInfAdic);
 
     /**OBS CONTRIBUENTE **/
     $stdObsCont = new stdClass();
     $stdObsCont->xCampo = 'Cod.Cliente:L09109';
     $stdObsCont->xTexto = 'Pedido:200821131146';
     
-    $stdObsCont = $nfe->tagobsCont($stdObsCont);
+    $ObsCont = $nfe->tagobsCont($stdObsCont);
 
     /**COMPRA **/
     $stdCompra = new stdClass();
     $stdCompra->xPed = '200821131146';
     
-    $stdCompra = $nfe->tagcompra($stdCompra);
+    $Compra = $nfe->tagcompra($stdCompra);
 
-    //Monta a nota
-    if ($nfe->montaNFe()) {
-        return $nfe->getXML();
-    }else {
-        throw new Exception("Erro ao gerar NFe");
-    }
+    //Monta xml
+    if ($nfe->montaNFe){
+        return  $xml = $nfe->monta();
+    }else
+    throw new Exception("Erro ao gerar NFe");
 
  }
 } 
