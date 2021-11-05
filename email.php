@@ -1,7 +1,7 @@
 <?php
-
 use PHPMailer\PHPMailer\PHPMailer;
 require 'vendor/autoload.php';
+
 $mail = new PHPMailer;
 $mail->isSMTP();
 $mail->SMTPDebug = 2;
@@ -16,9 +16,10 @@ $mail->addAddress('yasminazapfy@gmail.com', 'Receiver Name');
 $mail->Subject = 'Teste';
 //$mail->msgHTML(file_get_contents('message.html'), __DIR__);
 $mail->Body = 'TESTE';
-$mail->addAttachment('../pdf/exercicios.pdf');
+//$mail->addAttachment($pdf);
 if (!$mail->send()) {
     echo 'EMAIL NÂO ENVIADO' . $mail->ErrorInfo;
 } else {
     echo 'EMAIL ENVIADO';
 }
+?>
